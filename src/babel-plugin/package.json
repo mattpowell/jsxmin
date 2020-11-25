@@ -1,12 +1,12 @@
 {
   "name": "babel-plugin-jsxmin",
   "version": "1.0.0",
-  "description": "",
+  "description": "Babel plugin for jsxmin: minimal jsx templating.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "keywords": ["babel", "babel plugin", "jsx", "templating"],
+  "author": "Matt Powell",
+  "license": "MIT"
 }

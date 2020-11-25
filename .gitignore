@@ -3,7 +3,7 @@
 # ...Lockfiles for apps, but not for packages
 package-lock.json
 
-# for testing :/ 
+# for testing :/
 matt.js
 
 # General
