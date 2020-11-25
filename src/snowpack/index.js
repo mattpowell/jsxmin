@@ -2,7 +2,7 @@ const babel = require('@babel/core');
 
 module.exports = function (snowpackConfig, pluginOptions) {
   return {
-    name: '../babel-plugin', // NOTE: use `babel-plugin-jsxmin` when outside of this repo
+    name: 'babel-plugin-jsxmin', // NOTE: use `babel-plugin-jsxmin` when outside of this repo
     resolve: {
       input: ['.jsx'],
       output: ['.js'],

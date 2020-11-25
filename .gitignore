@@ -3,6 +3,9 @@
 # ...Lockfiles for apps, but not for packages
 package-lock.json
 
+#
+**/node_modules
+
 # for testing :/
 matt.js
 

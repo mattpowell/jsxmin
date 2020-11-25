@@ -14,7 +14,7 @@ function View(fastify, {
     only: [new RegExp('^' + Path.resolve(views))],
     extensions: ['.jsx'],
     cache: useCache,
-    plugins:  ['../babel-plugin'], // NOTE: change this to `babel-plugin-jsxmin` when using outside of this repo
+    plugins:  ['babel-plugin-jsxmin'],
   });
 
   function renderer(res, file, data) {

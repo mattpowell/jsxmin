@@ -9,7 +9,7 @@ module.exports = ({
         only: [new RegExp('^' + options.settings.views)],
         extensions: ['.jsx'],
         cache: true,
-        plugins:  ['../babel-plugin'], // NOTE: change this to `babel-plugin-jsxmin` when using outside of this repo
+        plugins:  ['babel-plugin-jsxmin'],
       });
       isBabelRegistered = true;
     }

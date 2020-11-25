@@ -1,12 +1,21 @@
 {
-  "name": "jsxmin-fastify",
-  "version": "1.0.0",
+  "name": "fastify-jsxmin",
+  "version": "1.0.1",
   "description": "Fastify plugin for using jsxmin to render jsx templates as Fastify views",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["jsx", "fastify", "jsxmin", "view", "template", "fastify view", "fastify plugin", "point of view"],
+  "keywords": [
+    "jsx",
+    "fastify",
+    "jsxmin",
+    "view",
+    "template",
+    "fastify view",
+    "fastify plugin",
+    "point of view"
+  ],
   "author": "Matt Powell",
   "license": "MIT",
   "dependencies": {
