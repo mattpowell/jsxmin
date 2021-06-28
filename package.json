@@ -1,10 +1,14 @@
 {
   "name": "jsxmin",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Minimal jsx templating: no React or other runtime libraries, transpile jsx to plain javascript strings.",
   "main": "src/jsxmin.js",
   "scripts": {
     "test": "jasmine --config=tests/jasmine.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mattpowell/jsxmin"
   },
   "keywords": ["jsx", "template", "templating", "view", "babel plugin", "express", "fastify", "snowpack"],
   "author": "Matt Powell",
