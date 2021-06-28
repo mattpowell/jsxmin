@@ -5,6 +5,7 @@ package-lock.json
 
 #
 **/node_modules
+**/build
 
 # for testing :/
 matt.js

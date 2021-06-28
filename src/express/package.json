@@ -1,12 +1,17 @@
 {
   "name": "jsxmin-express",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Express plugin for using jsxmin to render jsx templates as Express views",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["jsx", "templating", "express view", "view"],
+  "keywords": [
+    "jsx",
+    "templating",
+    "express view",
+    "view"
+  ],
   "author": "Matt Powell",
   "license": "MIT",
   "dependencies": {

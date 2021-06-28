@@ -8,7 +8,7 @@ function View(fastify, {
   views = './',
   engine = 'jsx',
   useCache = NODE_ENV === 'production'
-}, next) {
+} = {}, next) {
 
   require('@babel/register')({
     only: [new RegExp('^' + Path.resolve(views))],

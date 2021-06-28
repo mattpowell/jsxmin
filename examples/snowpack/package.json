@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "snowpack build",
+    "serve": "python3 -m http.server --directory build/src"
+  },
+  "author": "Matt Powell",
+  "dependencies": {
+    "@snowpack/plugin-babel": "^2.1.7",
+    "babel-plugin-jsxmin": "^1.0.3",
+    "snowpack": "^3.6.2"
+  },
+  "devDependencies": {}
+}

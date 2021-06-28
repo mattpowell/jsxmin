@@ -1,6 +1,6 @@
 module.exports = ({
   doctype = '<!DOCTYPE html>'
-}) => {
+} = {}) => {
   let isBabelRegistered = false;
   return (filename, options, cb) => {
 
@@ -9,7 +9,7 @@ module.exports = ({
         only: [new RegExp('^' + options.settings.views)],
         extensions: ['.jsx'],
         cache: true,
-        plugins:  ['babel-plugin-jsxmin'],
+        plugins:  ['babel-plugin-jsxmin'], // __dirname + '/../babel-plugin'
       });
       isBabelRegistered = true;
     }

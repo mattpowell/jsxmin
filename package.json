@@ -1,12 +1,12 @@
 {
   "name": "jsxmin",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Minimal jsx templating: no React or other runtime libraries, transpile jsx to plain javascript strings.",
   "main": "src/jsxmin.js",
   "scripts": {
     "test": "jasmine --config=tests/jasmine.json"
   },
-  "keywords": ["jsx", "template", "templating", "view", "babel plugin"],
+  "keywords": ["jsx", "template", "templating", "view", "babel plugin", "express", "fastify", "snowpack"],
   "author": "Matt Powell",
   "license": "MIT",
   "files": [
@@ -14,8 +14,7 @@
     "src/jsxmin.js",
     "src/babel-plugin/index.js",
     "src/fastify/index.js",
-    "src/express/index.js",
-    "src/snowpack/index.js"
+    "src/express/index.js"
   ],
   "dependencies": {
     "@babel/core": "^7.12.1"

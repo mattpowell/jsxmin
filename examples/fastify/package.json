@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "scripts": {
+    "serve": "node fastify.js"
+  },
+  "author": "Matt Powell",
+  "dependencies": {
+    "fastify": "^3.18.0",
+    "fastify-jsxmin": "^1.0.1"
+  },
+  "devDependencies": {}
+}

@@ -17,6 +17,12 @@ module.exports = function (babel) {
     return t.conditionalExpression(t.binaryExpression('===', t.unaryExpression('typeof', ident), t.stringLiteral('function')), callScopedBindingExpr, ident);
   }
 
+  function stringLiteralAsTemplateLiteral(raw, tail = false) {
+    return t.templateLiteral([t.templateElement({
+      raw, tail
+    })], []);
+  }
+
   const api = {
     name: 'babel-plugin-jsxmin',
     manipulateOptions(opts, parserOpts) {
@@ -66,6 +72,11 @@ module.exports = function (babel) {
         if (t.isJSXExpressionContainer(expr)) {
           expr = expr.expression;
           // TODO: add xss sanitization here (`expr.value` is the value... unless it's a reference/Identifier)
+        }
+
+        // handle newlines
+        if (t.isStringLiteral(expr)) {
+          expr = stringLiteralAsTemplateLiteral(expr.value);
         }
         expr = t.binaryExpression('+', t.stringLiteral('"'), t.binaryExpression('+', expr, t.stringLiteral('"')))
         expr = t.binaryExpression('+', t.binaryExpression('+', t.stringLiteral(attrName), t.stringLiteral('=')), expr);

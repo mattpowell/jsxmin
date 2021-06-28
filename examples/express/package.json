@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "scripts": {
+    "serve": "node express.js"
+  },
+  "author": "Matt Powell",
+  "dependencies": {
+    "babel-plugin-jsxmin": "^1.0.3",
+    "express": "^4.17.1",
+    "jsxmin-express": "^1"
+  },
+  "devDependencies": {}
+}
