@@ -67,7 +67,9 @@ module.exports = function (babel) {
       JSXAttribute(path, state) {
 
         const attrName = path.node.name.name;
-        let expr = path.node.value;
+        // NOTE: if the value property isn't defined then attempt to treat as an
+        //      "html boolean attribute" and set the value as the same name as the attribute
+        let expr = path.node.value || t.stringLiteral(attrName);
 
         if (t.isJSXExpressionContainer(expr)) {
           expr = expr.expression;

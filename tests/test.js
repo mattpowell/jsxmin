@@ -17,6 +17,12 @@ describe('Basic', () => {
     expect(await tmpl()).toBe(`<div>Hello world.</div>`)
   });
 
+  it('Should handle basic html with attributes', () => {
+    // TODO: fix this!
+    const tmpl = Jsxmin.execute(`() => <div id="main" selected>Hello world.</div>`);
+    expect(tmpl()).toBe(`<div id="main" selected="selected">Hello world.</div>`)
+  });
+
   it('Should handle basic html with interpolation', () => {
     const tmpl = Jsxmin.execute(`(props) => <div>Hello {props.name}.</div>`);
     expect(tmpl({
