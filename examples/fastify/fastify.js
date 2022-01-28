@@ -5,7 +5,10 @@ const fastify = require('fastify')({
 })
 
 fastify.register(jsxMin, {
-  views: __dirname + '/views'
+  views: __dirname + '/views',
+  opts: {
+    enableOutputSimplification: true
+  }
 })
 
 fastify.get('/', function (req, reply) {

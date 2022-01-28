@@ -1,6 +1,6 @@
 {
   "name": "jsxmin",
-  "version": "2.0.1",
+  "version": "2.1.1",
   "description": "Minimal jsx templating: no React or other runtime libraries, transpile jsx to plain javascript strings.",
   "main": "src/jsxmin.js",
   "scripts": {

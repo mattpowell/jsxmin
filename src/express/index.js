@@ -2,14 +2,14 @@ module.exports = ({
   doctype = '<!DOCTYPE html>'
 } = {}) => {
   let isBabelRegistered = false;
-  return (filename, options, cb) => {
+  return async (filename, options, cb) => {
 
     if (!isBabelRegistered) {
       require('@babel/register')({
         only: [new RegExp('^' + options.settings.views)],
         extensions: ['.jsx'],
         cache: true,
-        plugins:  ['babel-plugin-jsxmin'], // __dirname + '/../babel-plugin'
+        plugins:  [['babel-plugin-jsxmin', options.settings.opts]], // __dirname + '/../babel-plugin'
       });
       isBabelRegistered = true;
     }
@@ -23,7 +23,7 @@ module.exports = ({
       delete props._locals;
       delete props.cache;
 
-      const html = doctype + template(props);
+      const html =  doctype + (await Promise.resolve(template(props)));
       cb(null, html)
     }catch(err) {
       cb(err);

@@ -7,17 +7,18 @@ function View(fastify, {
   doctype = '<!DOCTYPE html>',
   views = './',
   engine = 'jsx',
-  useCache = NODE_ENV === 'production'
+  useCache = NODE_ENV === 'production',
+  opts = {}
 } = {}, next) {
 
   require('@babel/register')({
     only: [new RegExp('^' + Path.resolve(views))],
     extensions: ['.jsx'],
     cache: useCache,
-    plugins:  ['babel-plugin-jsxmin'],
+    plugins:  [['babel-plugin-jsxmin', opts]],
   });
 
-  function renderer(res, file, data) {
+  async function renderer(res, file, data) {
 
     if (!file) {
       this.send(new Error('Missing page'))
@@ -31,7 +32,7 @@ function View(fastify, {
       }
       const template = require(path);
       const props = {...data};
-      const html =  doctype + template(props);
+      const html =  doctype + (await Promise.resolve(template(props)));
 
       if (!res.getHeader('content-type')) {
         res.header('Content-Type', 'text/html; charset=utf8');
@@ -45,13 +46,13 @@ function View(fastify, {
     }
   }
 
-  fastify.decorate('view', function() {
+  fastify.decorate('view', async function() {
     const args = Array.from(arguments);
     let done;
     if (typeof args[args.length - 1] === 'function') {
       done = args.pop()
     }
-    const result = renderer(this, ...args)
+    const result = await renderer(this, ...args)
 
     if (typeof done === 'function') {
       done(null, result);
@@ -61,8 +62,8 @@ function View(fastify, {
 
   });
 
-  fastify.decorateReply('view', function(file, data) {
-    renderer(this, file, data);
+  fastify.decorateReply('view', async function(file, data) {
+    await renderer(this, file, data);
     return this;
   })
 

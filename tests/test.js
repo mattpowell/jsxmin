@@ -6,6 +6,17 @@ describe('Basic', () => {
     expect(tmpl()).toBe(`<div>Hello world.</div>`)
   });
 
+  it('Should support async functions', async () => {
+    const tmpl = Jsxmin.execute(`
+      const sleep = (n) => new Promise(resolve => setTimeout(() => resolve(), n)); 
+      async () => {
+        await sleep(1000);
+        return <div>Hello world.</div>
+      }
+    `);
+    expect(await tmpl()).toBe(`<div>Hello world.</div>`)
+  });
+
   it('Should handle basic html with interpolation', () => {
     const tmpl = Jsxmin.execute(`(props) => <div>Hello {props.name}.</div>`);
     expect(tmpl({
@@ -110,7 +121,6 @@ describe('Basic', () => {
                       font-size: 1em">Text.</p>`)
   });
 });
-
 
 describe('Advanced', () => {
   it('Shouldn\'t coerce tagNames within variable declarations', () => {

@@ -1,6 +1,6 @@
 {
   "name": "fastify-jsxmin",
-  "version": "2.0.1",
+  "version": "2.1.1",
   "description": "Fastify plugin for using jsxmin to render jsx templates as Fastify views",
   "main": "index.js",
   "scripts": {

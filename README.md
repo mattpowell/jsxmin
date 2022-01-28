@@ -84,11 +84,22 @@ API
 ---
  
 **`.execute(source, opts)`**
-> Transform and execute a string with `jsx` and get the resulting output
+> Transform and execute a string with `jsx` and get the resulting output.
 
 `source` should be a string.
 
 `opts` is an object with properties as [defined below](#options).
+
+#### Note: Whatever [valid] JavaScript statement is on the last line is what will be returned. See [Dynamic usage](#direct-usage) example below.
+
+[comment]: <> (_For Example:_)
+[comment]: <> (```javascript)
+[comment]: <> (const result = Jsxmin.execute&#40;`)
+[comment]: <> (  const name = <>World</>;)
+[comment]: <> (  <>Hello {name}</>)
+[comment]: <> (`&#41;)
+[comment]: <> (console.log&#40;result&#41;; // Hello World)
+[comment]: <> (```)
  
 Options
 =======
@@ -137,7 +148,7 @@ Direct Usage
 const Jsxmin = require('jsxmin');
 
 const tmpl = Jsxmin.execute(`
-    return ({name}) => <p>Hello {name || 'world'}</p>
+    ({name}) => <p>Hello {name || 'world'}</p>
 `, {
   // NOTE: these are the default values and can be removed
   enableOutputSimplification: false,
@@ -146,7 +157,7 @@ const tmpl = Jsxmin.execute(`
   allowScopedParameterAccess: false,
 });
 
-console.log(tmpl({name: 'Github'})) // 'Hello Github'
+console.log(tmpl({name: 'Github'})) // '<p>Hello Github</p>'
 ```
 ---
 **Build-time usage:**

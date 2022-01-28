@@ -1,7 +1,11 @@
 const GlobalLayout = require('./layout');
 
-module.exports = (props) => {
+const sleep = (n) => new Promise(resolve => setTimeout(() => resolve(), n));
+
+module.exports = async (props) => {
+  const start = Date.now();
+  await sleep(100 * Math.random());
   return <GlobalLayout title={"Homepage"}>
-    Hello {props.name} 🏃‍♂️ 🏃‍♂️ 🏃‍♂️
+    [{Date.now() - start}ms] Hello {props.name} 🏃‍♂️ 🏃‍♂️ 🏃‍♂️
   </GlobalLayout>;
 }
