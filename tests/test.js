@@ -18,7 +18,6 @@ describe('Basic', () => {
   });
 
   it('Should handle basic html with attributes', () => {
-    // TODO: fix this!
     const tmpl = Jsxmin.execute(`() => <div id="main" selected>Hello world.</div>`);
     expect(tmpl()).toBe(`<div id="main" selected="selected">Hello world.</div>`)
   });
@@ -93,6 +92,13 @@ describe('Basic', () => {
     expect(tmpl({
       label: 'wrapped'
     })).toBe(`<div><div class="wrapper">wrapped</div></div>`)
+  });
+
+  it('Should handle spreading props as attributes', () => {
+    const tmpl = Jsxmin.execute(`(props) => <div id="main" {...props}>Hello world.</div>`);
+    expect(tmpl({
+      required: true
+    })).toBe(`<div id="main"  required="true">Hello world.</div>`)
   });
 
   it('Should run tagnames if they\'re functions', () => {

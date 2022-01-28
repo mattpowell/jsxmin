@@ -1,6 +1,16 @@
 module.exports = function (babel) {
   const t = babel.types;
 
+  // helper to quickly create identifier's from template literals
+  function identifier(literals, ...substitutions) {
+    let interpolation = '';
+    for (let i = 0; i < substitutions.length; i++) {
+      interpolation += literals[i] + substitutions[i]
+    }
+    interpolation += literals[literals.length - 1]
+    return t.identifier(interpolation)
+  }
+
   function addWhitespace(expr, position) {
     if (position !== 'AFTER') position = 'BEFORE';
     const isBefore = position === 'BEFORE';
@@ -17,10 +27,28 @@ module.exports = function (babel) {
     return t.conditionalExpression(t.binaryExpression('===', t.unaryExpression('typeof', ident), t.stringLiteral('function')), callScopedBindingExpr, ident);
   }
 
-  function stringLiteralAsTemplateLiteral(raw, tail = false) {
-    return t.templateLiteral([t.templateElement({
+  function strToTemplate(raw, tail = false) {
+    return t.templateElement({
       raw, tail
-    })], []);
+    });
+  }
+
+  function stringLiteralAsTemplateLiteral(raw, tail = false) {
+    return t.templateLiteral([strToTemplate(raw, tail)], []);
+  }
+
+  function createExpressionFromSpread(attr) {
+    const ident = attr.argument;
+    // (Object.keys(props).reduce((attrs, key) => `${attrs} ${key}="${props[key]}"`, ''))
+    return t.callExpression(t.memberExpression(t.callExpression(t.memberExpression(identifier`Object`, identifier`keys`), [ident]), identifier`reduce`), [
+      t.arrowFunctionExpression([identifier`attrs`, identifier`key`], t.templateLiteral([
+        strToTemplate('', false),
+        strToTemplate(' ', false),
+        strToTemplate('=\\"', false),
+        strToTemplate('\\"', true)
+      ], [identifier`attrs`, identifier`key`, t.memberExpression(identifier`props`, identifier`key`, true)])),
+      t.stringLiteral('')
+    ]);
   }
 
   const api = {
@@ -182,9 +210,7 @@ module.exports = function (babel) {
           prevExp = t.binaryExpression('+', t.stringLiteral('<'), t.stringLiteral(tagName));
           attributes.forEach(attr => {
             if (t.isSpreadElement(attr)) {
-              // we don't support {...props} on non-jsx tags
-              // in theory, we could do something like this Object.keys(props).reduce((key, attrs) => attrs + (key + '="' + props[key] + '"', '')
-              return;
+              attr = createExpressionFromSpread(attr);
             }
             // TODO: add xss sanitization here (for `attr`)
             prevExp = t.binaryExpression('+', prevExp, addWhitespace(attr));
