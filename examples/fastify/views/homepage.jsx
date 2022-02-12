@@ -1,8 +1,7 @@
-const GlobalLayout = require('./layout');
+import { sleep } from './utils'
+import GlobalLayout from './layout'
 
-const sleep = (n) => new Promise(resolve => setTimeout(() => resolve(), n));
-
-module.exports = async (props) => {
+export default async (props) => {
   const start = Date.now();
   await sleep(100 * Math.random());
   return <GlobalLayout title={"Homepage"}>

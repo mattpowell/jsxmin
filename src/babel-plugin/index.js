@@ -23,6 +23,16 @@ module.exports = function (babel) {
     if (!t.isIdentifier(ident) && typeof ident === 'string') {
       ident = t.identifier(ident)
     }
+
+
+    // TODO: this is needed to support the `transformEsmAsCjs` option; however, this is probably because the nested
+    //  expression is not being unwrapped correctly, so this whole function should be reworked.
+    if (t.isIdentifier(ident)) {
+      const {name} = ident;
+      const callScopedBindingExpr = t.callExpression(t.identifier(name), fnParams);
+      return t.conditionalExpression(t.binaryExpression('===', t.unaryExpression('typeof', t.identifier(name)), t.stringLiteral('function')), callScopedBindingExpr, t.identifier(name));
+    }
+
     const callScopedBindingExpr = t.callExpression(ident, fnParams);
     return t.conditionalExpression(t.binaryExpression('===', t.unaryExpression('typeof', ident), t.stringLiteral('function')), callScopedBindingExpr, ident);
   }
@@ -39,14 +49,14 @@ module.exports = function (babel) {
 
   function createExpressionFromSpread(attr) {
     const ident = attr.argument;
-    // (Object.keys(props).reduce((attrs, key) => `${attrs} ${key}="${props[key]}"`, ''))
-    return t.callExpression(t.memberExpression(t.callExpression(t.memberExpression(identifier`Object`, identifier`keys`), [ident]), identifier`reduce`), [
-      t.arrowFunctionExpression([identifier`attrs`, identifier`key`], t.templateLiteral([
+    // (Object.entries(props).reduce((attrs, [key, value]) => `${attrs} ${key}="${value}"`, ''))
+    return t.callExpression(t.memberExpression(t.callExpression(t.memberExpression(identifier`Object`, identifier`entries`), [ident]), identifier`reduce`), [
+      t.arrowFunctionExpression([identifier`attrs`, t.arrayPattern([identifier`key`, identifier`value`])], t.templateLiteral([
         strToTemplate('', false),
         strToTemplate(' ', false),
         strToTemplate('=\\"', false),
         strToTemplate('\\"', true)
-      ], [identifier`attrs`, identifier`key`, t.memberExpression(identifier`props`, identifier`key`, true)])),
+      ], [identifier`attrs`, identifier`key`, identifier`value`])),
       t.stringLiteral('')
     ]);
   }

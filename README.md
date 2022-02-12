@@ -119,6 +119,11 @@ This step adds additional parsing and traversing and can add significant overhea
 
 Note: This is _experimental_ and could have unexpected results. Requires `allowReferencesAsFunctions` to be set to `true`.
 
+**`transformEsmAsCjs[=false]`**
+> Transforms ECMAScript modules to CommonJS -- only the syntax of import/export statements and import expressions is transformed.
+
+Note: This is _experimental_ and could have unexpected results. Also, this requires the `@babel/plugin-transform-modules-commonjs` package to be installed (which is an optional dependency of this package).
+
 [See below for usage examples](#direct-usage)
 
 Installation
@@ -150,7 +155,7 @@ const Jsxmin = require('jsxmin');
 const tmpl = Jsxmin.execute(`
     ({name}) => <p>Hello {name || 'world'}</p>
 `, {
-  // NOTE: these are the default values and can be removed
+  // NOTE: these are the default values and are only being passed here for demonstration purposes.
   enableOutputSimplification: false,
   useWhitespace: false,
   allowReferencesAsFunctions: true,
@@ -185,6 +190,11 @@ Security
 TODO
 ====
 - [x] ~~Finalize the main api (`transpileFile` vs `transpileSource` vs `run`) and add documentation.~~
+- [ ] Support compiling jsx as ES modules (specifically importing and exporting)
+  - [x] Support ES modules and additional Babel plugins in Fastify and Express plugins
+  - [ ] Resolve TODO on line 28 of [babel-plugin/index.js](./src/babel-plugin/index.js#L28)
+- [x] Support async/await in Fastify and Express plugins
+- [x] Support spread operator for attributes (e.g., `<Button {...props}></Button>`)
 - [ ] Use template literals instead of string literals for everything
 - [ ] Clean up internal directory structure:
     - Make releasing and incrementing on individual packages easier

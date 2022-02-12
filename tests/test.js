@@ -101,6 +101,11 @@ describe('Basic', () => {
     })).toBe(`<div id="main"  required="true">Hello world.</div>`)
   });
 
+  it('Should handle directly spreading props as attributes', () => {
+    const tmpl = Jsxmin.execute(`(props) => <div id="main" {...({class: 'label', required: true})}>Hello world.</div>`);
+    expect(tmpl({})).toBe(`<div id="main"  class="label" required="true">Hello world.</div>`)
+  });
+
   it('Should run tagnames if they\'re functions', () => {
     const tmpl = Jsxmin.execute(`
       const Label = ({value}) => <strong>{value}</strong>;
@@ -253,5 +258,22 @@ describe('Options', () => {
     expect(compiled({
       name: 'hello world'
     })).toBe(`<p>default</p>`)
+  });
+  it('transformEsmAsCjs=true', () => {
+    const tmpl = Jsxmin.transform(`
+      import GlobalLayout from './layouts';
+      (props) => <GlobalLayout>Hello</GlobalLayout>
+    `, {
+      transformEsmAsCjs: true
+    });
+    expect(tmpl).toBe(`"use strict";
+
+var _layouts = _interopRequireDefault(require("./layouts"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+props => typeof _layouts.default === "function" ? (0, _layouts.default)({
+  children: "Hello"
+}) : _layouts.default;`)
   });
 })

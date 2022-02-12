@@ -5,6 +5,7 @@
   },
   "author": "Matt Powell",
   "dependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.16.8",
     "fastify": "^3.18.0",
     "fastify-jsxmin": "^1.0.1"
   },

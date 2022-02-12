@@ -6,8 +6,11 @@ const fastify = require('fastify')({
 
 fastify.register(jsxMin, {
   views: __dirname + '/views',
+  additionalBabelPlugins: [ '@babel/plugin-transform-modules-commonjs' ],
+  extensions: ['.js', '.jsx'],
   opts: {
-    enableOutputSimplification: true
+    enableOutputSimplification: true,
+    transformEsmAsCjs: true
   }
 })
 

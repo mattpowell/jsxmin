@@ -7,15 +7,17 @@ function View(fastify, {
   doctype = '<!DOCTYPE html>',
   views = './',
   engine = 'jsx',
+  extensions = [`.${engine}`],
   useCache = NODE_ENV === 'production',
+  additionalBabelPlugins = [],
   opts = {}
 } = {}, next) {
 
   require('@babel/register')({
     only: [new RegExp('^' + Path.resolve(views))],
-    extensions: ['.jsx'],
+    extensions,
     cache: useCache,
-    plugins:  [['babel-plugin-jsxmin', opts]],
+    plugins:  [['babel-plugin-jsxmin', opts], ...additionalBabelPlugins],
   });
 
   async function renderer(res, file, data) {
@@ -30,7 +32,8 @@ function View(fastify, {
       if (!useCache) {
         Decache(path);
       }
-      const template = require(path);
+      const module = require(path);
+      const template = typeof module === 'function' ? module : (module && module.default);
       const props = {...data};
       const html =  doctype + (await Promise.resolve(template(props)));
 

@@ -1,6 +1,6 @@
 {
   "name": "jsxmin",
-  "version": "2.1.3",
+  "version": "2.2.0",
   "description": "Minimal jsx templating: no React or other runtime libraries, transpile jsx to plain javascript strings.",
   "main": "src/jsxmin.js",
   "scripts": {
@@ -25,5 +25,8 @@
   },
   "devDependencies": {
     "jasmine": "^3.6.1"
+  },
+  "optionalDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.12.1"
   }
 }
