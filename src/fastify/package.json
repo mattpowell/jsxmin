@@ -1,6 +1,6 @@
 {
   "name": "fastify-jsxmin",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Fastify plugin for using jsxmin to render jsx templates as Fastify views",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,7 @@
   "author": "Matt Powell",
   "license": "MIT",
   "dependencies": {
-    "babel-plugin-jsxmin": "^1.0.0",
+    "babel-plugin-jsxmin": "^2.2.0",
     "@babel/register": "^7.12.1",
     "fastify-plugin": "^3.0.0",
     "decache": "^4.6.0"
