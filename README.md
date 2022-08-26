@@ -124,6 +124,7 @@ Options
 | all         | `dangerouslySetInnerHTML` | `dangerouslySetInnerHTML={'<a onclick=alert(1)>:)</a>'}` | -                                      | 𝘅            |
 | all         | `htmlFor`                 | `htmlFor="id"`                                           | `for="id"`                             | ✔️            |
 | all         | `selected`                | `selected`                                               | `selected="selected"`                  | ✔️            |
+
 [See below for usage examples](#direct-usage)
 
 Installation
