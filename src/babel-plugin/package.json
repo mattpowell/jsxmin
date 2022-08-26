@@ -1,6 +1,7 @@
 {
   "name": "babel-plugin-jsxmin",
-  "version": "2.2.0",
+  "version": "3.0.0-jsxish",
+  "type": "module",
   "description": "Babel plugin for jsxmin: minimal jsx templating.",
   "main": "index.js",
   "scripts": {

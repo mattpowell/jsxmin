@@ -3,6 +3,14 @@ const Plugin = require('fastify-plugin');
 const Decache = require('decache');
 const { NODE_ENV } = process.env || {};
 
+async function render(tmpl, arg) {
+  // NOTE: since fastify-jsxmin is still a CommonJS module we need to dynamically import the runtime (an ES Module)
+  return import('jsxmin/runtime').then(({render}) => render(tmpl, arg)).catch(err => {
+    console.error('Error while rendering. Attempting manual invocation', err);
+    return tmpl(arg)
+  });
+}
+
 function View(fastify, {
   doctype = '<!DOCTYPE html>',
   views = './',
@@ -13,11 +21,16 @@ function View(fastify, {
   opts = {}
 } = {}, next) {
 
-  require('@babel/register')({
+  if (typeof opts.isRuntimeLibEnabled === 'undefined') {
+    opts.isRuntimeLibEnabled = false;
+  }
+
+  // NOTE: need to use the experimental worker because the babel plugin is now an ES Module
+  require('@babel/register/experimental-worker')({
     only: [new RegExp('^' + Path.resolve(views))],
     extensions,
     cache: useCache,
-    plugins:  [['babel-plugin-jsxmin', opts], ...additionalBabelPlugins],
+    plugins:  [['jsxmin/babel-plugin', opts], ...additionalBabelPlugins],
   });
 
   async function renderer(res, file, data) {
@@ -35,7 +48,11 @@ function View(fastify, {
       const module = require(path);
       const template = typeof module === 'function' ? module : (module && module.default);
       const props = {...data};
-      const html =  doctype + (await Promise.resolve(template(props)));
+      const html =  doctype + (await Promise.resolve(render(template, props)));
+
+      if (!res) {
+        return html;
+      }
 
       if (!res.getHeader('content-type')) {
         res.header('Content-Type', 'text/html; charset=utf8');
@@ -55,7 +72,7 @@ function View(fastify, {
     if (typeof args[args.length - 1] === 'function') {
       done = args.pop()
     }
-    const result = await renderer(this, ...args)
+    const result = await renderer(null, ...args)
 
     if (typeof done === 'function') {
       done(null, result);

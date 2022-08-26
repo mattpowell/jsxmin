@@ -1,6 +1,6 @@
 {
   "name": "jsxmin-express",
-  "version": "2.2.1",
+  "version": "3.0.0-jsxish",
   "description": "Express plugin for using jsxmin to render jsx templates as Express views",
   "main": "index.js",
   "scripts": {
@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@babel/register": "^7.12.1",
-    "babel-plugin-jsxmin": "^2.2.0"
+    "jsxmin": "3.0.0-jsxish"
   },
   "devDependencies": {
     "express": "^4.17.1"

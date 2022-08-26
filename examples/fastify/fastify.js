@@ -9,8 +9,6 @@ fastify.register(jsxMin, {
   additionalBabelPlugins: [ '@babel/plugin-transform-modules-commonjs' ],
   extensions: ['.js', '.jsx'],
   opts: {
-    enableOutputSimplification: true,
-    transformEsmAsCjs: true
   }
 })
 

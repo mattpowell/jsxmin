@@ -1,0 +1,11 @@
+{
+  "name": "jsxmin-runtime",
+  "version": "3.0.0-jsxish",
+  "description": "Optional, runtime libraries for jsxmin. Use `compat.js` for improved Reach compatability and `escape.js` to sanitize html source code.",
+  "main": "runtime.js",
+  "type": "module",
+  "scripts": {
+  },
+  "author": "Matt Powell",
+  "license": "MIT"
+}

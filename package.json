@@ -1,8 +1,16 @@
 {
   "name": "jsxmin",
-  "version": "2.2.0",
+  "version": "3.0.0-jsxish",
   "description": "Minimal jsx templating: no React or other runtime libraries, transpile jsx to plain javascript strings.",
   "main": "src/jsxmin.js",
+  "type": "module",
+  "exports": {
+    ".": "./src/jsxmin.js",
+    "./": "./src/",
+    "./babel-plugin": "./src/babel-plugin/index.js",
+    "./runtime": "./src/runtime/runtime.js",
+    "./runtime/index.js": "./src/runtime/runtime.js"
+  },
   "scripts": {
     "test": "jasmine --config=tests/jasmine.json"
   },
@@ -10,23 +18,42 @@
     "type": "git",
     "url": "https://github.com/mattpowell/jsxmin"
   },
-  "keywords": ["jsx", "template", "templating", "view", "babel plugin", "express", "fastify", "snowpack"],
+  "keywords": [
+    "jsx",
+    "template",
+    "templating",
+    "view",
+    "babel plugin",
+    "express",
+    "fastify",
+    "snowpack"
+  ],
   "author": "Matt Powell",
   "license": "MIT",
   "files": [
     "README.md",
+    "package.json",
     "src/jsxmin.js",
     "src/babel-plugin/index.js",
+    "src/babel-plugin/package.json",
+    "src/babel-plugin/README.md",
+    "src/express/index.js",
+    "src/express/package.json",
+    "src/express/README.md",
     "src/fastify/index.js",
-    "src/express/index.js"
+    "src/fastify/package.json",
+    "src/fastify/README.md",
+    "src/runtime/package.json",
+    "src/runtime/runtime.js",
+    "src/runtime/dom.js",
+    "src/runtime/handlers.js"
   ],
   "dependencies": {
-    "@babel/core": "^7.12.1"
+    "@babel/core": "^7.12.10"
   },
   "devDependencies": {
-    "jasmine": "^3.6.1"
+    "jasmine": "^4.3.0"
   },
   "optionalDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "^7.12.1"
   }
 }

@@ -1,3 +1,4 @@
+> **Heads up!** This package (and its subpackages) has recently undergone a significant restructuring and there may be some missing functionality, missing documentation, or all of the above. Generally speaking, it is functional and usable, but stay tuned for continued updates.
 # jsxmin &mdash; _minimal jsx templating._
 > `jsxmin` allows you to write JSX and transpile it to plain, vanilla javascript without React or any other runtime libraries.
 
@@ -103,27 +104,26 @@ API
  
 Options
 =======
-**`enableOutputSimplification[=false]`**
-> Takes a second pass to simplify the transformed source.
-
-This step adds additional parsing and traversing and can add significant overhead. If the transformed source code is being passed to another tool to minify (and/or bundle) then this step is probably superfluous. 
-
-**`useWhitespace[=false]`**
-> Adds additional whitespace between tags to improve readability.
-
-**`allowReferencesAsFunctions[=true]`**
-> Checks if a reference (variable) is a function and if so, executes the function and uses its output instead.
+**`allowReferencedTagsAsFunctions[=true]`**
+> Checks if a tag is a function (within the current scope) and, if so, evaluates it and uses its return value as the output.
 
 **`allowScopedParameterAccess[=false]`**
 > Pass along the `props` (the first parameter) to each subsequent function call.
 
-Note: This is _experimental_ and could have unexpected results. Requires `allowReferencesAsFunctions` to be set to `true`.
+**`reactCompat[=true|'strict']`**
+> Enables a compatability mode
 
-**`transformEsmAsCjs[=false]`**
-> Transforms ECMAScript modules to CommonJS -- only the syntax of import/export statements and import expressions is transformed.
-
-Note: This is _experimental_ and could have unexpected results. Also, this requires the `@babel/plugin-transform-modules-commonjs` package to be installed (which is an optional dependency of this package).
-
+| Compat Mode | Property                  | Input                                                    | Output                                 | Implemented? |
+|-------------|---------------------------|----------------------------------------------------------|----------------------------------------|--------------|
+| all         | `className`               | `className={{container: true, content: false}}`          | `class="container"`                    | ✔️            |
+| strict      | `className`               | `className={{container: true}}`                          | `class="[object Object]"`              | ✔️            |
+| all         | `style`                   | `style={{color: 'red', height: 10}}`                     | `style="color: red; height: 10px;"`    | ✔️            |
+| strict      | `style`                   | `style={{color: 'red', height: 10}}`                     | `style="color: red; height: 10px;"`    | ✔️            |
+| all         | _any_                     | `data-model={{id: 12345}}`                               | `data-model="{&quot;id&quot;: 12345}"` | ✔️            |
+| strict      | _any_                     | `data-model={{id: 12345}}`                               | `data-model="[object Object]"`         | ✔️            |
+| all         | `dangerouslySetInnerHTML` | `dangerouslySetInnerHTML={'<a onclick=alert(1)>:)</a>'}` | -                                      | 𝘅            |
+| all         | `htmlFor`                 | `htmlFor="id"`                                           | `for="id"`                             | ✔️            |
+| all         | `selected`                | `selected`                                               | `selected="selected"`                  | ✔️            |
 [See below for usage examples](#direct-usage)
 
 Installation
@@ -156,10 +156,8 @@ const tmpl = Jsxmin.execute(`
     ({name}) => <p>Hello {name || 'world'}</p>
 `, {
   // NOTE: these are the default values and are only being passed here for demonstration purposes.
-  enableOutputSimplification: false,
-  useWhitespace: false,
-  allowReferencesAsFunctions: true,
-  allowScopedParameterAccess: false,
+  allowReferencedTagsAsFunctions: true,
+  reactCompat: true
 });
 
 console.log(tmpl({name: 'Github'})) // '<p>Hello Github</p>'
@@ -214,6 +212,7 @@ TODO
     - Handle escaping and sanitizing user input
     - Add support for control structures and loops, etc
     - Reduce various manual checks
+- [ ] Support additional syntax via Babel plugin (e.g. `@babel/plugin-syntax-decorators`)
 - [ ] ...?
 
 

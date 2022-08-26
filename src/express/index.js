@@ -1,3 +1,13 @@
+
+
+async function render(tmpl, arg) {
+  // NOTE: since jsxmin-express is still a CommonJS module we need to dynamically import the runtime (an ES Module)
+  return import('jsxmin/runtime').then(({render}) => render(tmpl, arg)).catch(err => {
+    console.error('Error while rendering. Attempting manual invocation', err);
+    return tmpl(arg)
+  });
+}
+
 module.exports = ({
   doctype = '<!DOCTYPE html>'
 } = {}) => {
@@ -5,17 +15,24 @@ module.exports = ({
   return async (filename, options, cb) => {
 
     if (!isBabelRegistered) {
-      require('@babel/register')({
+
+      if (typeof options.settings.opts.isRuntimeLibEnabled === 'undefined') {
+        options.settings.opts.isRuntimeLibEnabled = false;
+      }
+
+      // NOTE: need to use the experimental worker because the babel plugin is now an ES Module
+      require('@babel/register/experimental-worker')({
         only: [new RegExp('^' + options.settings.views)],
         extensions: ['.jsx'],
         cache: true,
-        plugins:  [['babel-plugin-jsxmin', options.settings.opts]], // __dirname + '/../babel-plugin'
+        plugins:  [['jsxmin/babel-plugin', options.settings.opts]],
       });
       isBabelRegistered = true;
     }
 
     try {
-      const template = require(filename);
+      const module = require(path);
+      const template = typeof module === 'function' ? module : (module && module.default);
       const props = {...options};
 
       // clean-up express-specific fields
@@ -23,7 +40,7 @@ module.exports = ({
       delete props._locals;
       delete props.cache;
 
-      const html =  doctype + (await Promise.resolve(template(props)));
+      const html =  doctype + (await Promise.resolve(render(template, props)));
       cb(null, html)
     }catch(err) {
       cb(err);

@@ -1,16 +1,25 @@
-const Babel = require('@babel/core');
+import Babel from '@babel/core';
 
-const Api = module.exports = {
+const Api = {
 
-  transform(source, opts = {}) {
-    const compiled = Babel.transform(source, {
-      plugins:  [[__dirname + '/babel-plugin', opts], ...(opts.transformEsmAsCjs ? ['@babel/plugin-transform-modules-commonjs'] : [])],
+  async transform(source, opts = {}) {
+    const compiled = await Babel.transformAsync(source, {
+      plugins:  [['jsxmin/babel-plugin', opts]],
     });
     return compiled.code
   },
 
-  execute(source, opts) {
-    const compiled = Api.transform(source, opts);
+  async execute(source, opts) {
+
+    if (opts?.isRuntimeLibEnabled) {
+      console.warn('[WARN] isRuntimeLibEnabled is not supported for `execute()`; disabling and continuing.')
+      opts.isRuntimeEnabled = opts.isRuntimeLibEnabled;
+      opts.isRuntimeLibEnabled = false;
+    }
+
+    const compiled = await Api.transform(source, opts);
     return eval(compiled);
   }
 };
+
+export default Api;

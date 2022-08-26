@@ -1,4 +1,4 @@
-module.exports = props => {
+module.exports = async (props) => {
   return (
     <html>
       <head>
