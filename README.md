@@ -1,3 +1,4 @@
+> ** Heads up!** Signficant work is happening to update and refactor this package for version 3.0.0 in the [jsxish branch](https://github.com/mattpowell/jsxmin/tree/jsxish).
 # jsxmin &mdash; _minimal jsx templating._
 > `jsxmin` allows you to write JSX and transpile it to plain, vanilla javascript without React or any other runtime libraries.
 
